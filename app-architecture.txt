@@ -1,0 +1,65 @@
+Client
+
+React Components:
+- App(Container) 
+  * keeps state of whether user is logged in and shows either Login or the chatroom components
+  - Login(Container) 
+    * action for adding a user
+  - UserList(Container)
+    * action for getting all logged in users
+    - User(Presentational)
+  - MessageList(Container)
+    * action for getting all messages
+    - Message(Presentational)
+  - AddMessage(Container)
+  * action for adding a message
+
+
+Redux:
+- Action Creators(functions that return actions)
+  - authLogin
+  - authLogout
+  - addMessage
+  - getAllUsers
+    - GET request to '/users' to return json of users
+
+- Constants
+
+
+- Reducers
+  - messages
+    - ADD_MESSAGE
+  - auth
+    - AUTH_LOGIN
+    - AUTH_LOGOUT
+- Store
+
+- State
+  - users
+    - email
+    - id(socket.io id)
+  - messages
+    - content
+    - user(email)
+    - id(uuid) * might not be needed
+
+
+Styling
+- Semantic UI React
+  - avatars for users
+
+
+
+
+Server
+
+- keep track of users(emails) in a object(easy to send back as json)
+  - key:email and value:socket id
+  - GET route for '/users' to get all users
+  - POST route for '/users' to add a user
+    - check if user already exists 
+- when a user logs out(disconnects) 
+  - remove them from logged in users
+    - can get unique id from socket.id
+  - emit the logged out user id
+- when a message is received emit the message

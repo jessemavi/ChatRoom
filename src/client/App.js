@@ -7,12 +7,20 @@ import { configureStore } from './redux/connect';
 
 import socketIO from 'socket.io-client';
 
+import Login from './components/Login';
+import UserList from './components/UserList';
+import MessageList from './components/MessageList';
+import AddMessage from './components/AddMessage';
+
 const socket = socketIO('http://localhost:8080');
 
 const store = configureStore();
 
 export default class App extends Component {
-  state = { username: null };
+  state = { 
+    username: null,
+    loggedIn: false
+  };
 
   componentDidMount() {
     fetch('/api/getUsername')
@@ -28,12 +36,18 @@ export default class App extends Component {
   }
 
   render() {
-    const { username } = this.state;
     return (
       <Provider store={store}>
-        <div>
-          {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
-        </div>
+        {!this.state.loggedIn 
+        ?
+          <Login />
+        :
+          <div>
+            <UserList />
+            <MessageList />
+            <AddMessage />
+          </div>
+        }
       </Provider>
     );
   }

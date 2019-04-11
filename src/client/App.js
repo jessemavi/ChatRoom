@@ -35,12 +35,14 @@ export default class App extends Component {
     socket.emit('message', 'Chat message #3');
   }
 
+  loginUser = () => this.setState({ loggedIn: true });
+
   render() {
     return (
       <Provider store={store}>
         {!this.state.loggedIn 
         ?
-          <Login />
+          <Login loginUser={this.loginUser} />
         :
           <div>
             <UserList />

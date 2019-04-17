@@ -19,7 +19,7 @@ const socket = socketIO('http://localhost:8080');
 export default class App extends Component {
   state = { 
     username: null,
-    loggedIn: false
+    loggedIn: true
   };
 
   componentDidMount() {

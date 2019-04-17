@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import './app.css';
 import ReactImage from './react.png';
 
-import { Provider } from 'react-redux';
-import { configureStore } from './redux/connect';
+// import { Provider } from 'react-redux';
+// import { configureStore } from './redux/connect';
 
 import socketIO from 'socket.io-client';
 
@@ -14,7 +14,7 @@ import AddMessage from './components/AddMessage';
 
 const socket = socketIO('http://localhost:8080');
 
-const store = configureStore();
+// const store = configureStore();
 
 export default class App extends Component {
   state = { 
@@ -39,7 +39,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <Provider store={store}>
+      <div>
         {!this.state.loggedIn 
         ?
           <Login loginUser={this.loginUser} />
@@ -50,7 +50,7 @@ export default class App extends Component {
             <AddMessage />
           </div>
         }
-      </Provider>
+      </div>
     );
   }
 }

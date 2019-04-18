@@ -1,21 +1,19 @@
-import React, { Component } from 'react';
-import User from './User';
+import React from 'react';
+import { connect } from 'react-redux';
 
-class UserList extends Component {
-  constructor() {
-    super();
-    this.state = {
-      
-    };
-  }
+let UserList = ({ users }) => (
+  <div>
+    <h3>UserList Component</h3>
+    {users.map((user, index) => (
+      <p key={index}>{user.email}</p>
+    ))}
+  </div>
+);
 
-  render() {
-    return (
-      <div>
-        <p>UserList Component</p>
-      </div>
-    );
-  }
-}
+const mapStateToProps = state => {
+  return { users: state.users };
+};
+
+UserList = connect(mapStateToProps)(UserList);
 
 export default UserList;

@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Message = ({ text, user, time }) => {
+const Message = ({ content, user, time }) => {
   return (
     <p>
-      <i>{user}</i> : {text} {time}
+      <i>{user}</i> : {content} {time}
     </p>
   );
 }

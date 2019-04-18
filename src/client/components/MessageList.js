@@ -5,11 +5,12 @@ import Message from './Message';
 
 let MessageList = ({ messages }) => (
   <div>
+    <h3>MessageList Component</h3>
     {messages.map((message, index) => (
       <Message 
         key={index}
         user={message.user}
-        text={message.text}
+        content={message.content}
         time={message.time}
       />
     ))}

@@ -1,8 +1,24 @@
 import { ADD_MESSAGE } from '../actionTypes';
 
 const initialState = {
-  users: [],
-  messages: []
+  users: [
+    {
+      email: 'test@gmail.com',
+      id: '9999999999999'
+    }
+  ],
+  messages: [
+    {
+      content: 'redux tutorials?',
+      user: 'test@gmail.com',
+      time: Date.now()
+    },
+    {
+      content: 'react tutorials?',
+      user: 'test2@gmail.com',
+      time: Date.now()
+    }
+  ]
 };
 
 function rootReducer(state = initialState, action) {

@@ -17,7 +17,7 @@ class ConnectedAddMessage extends Component {
   onFormSubmit = (event) => {
     event.preventDefault();
     this.props.addMessage({
-      text: this.state.formValue,
+      content: this.state.formValue,
       user: 'test@gmail.com',
       time: Date.now()
     });

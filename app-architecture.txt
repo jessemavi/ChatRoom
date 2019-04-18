@@ -7,7 +7,6 @@ React Components:
     * action for adding a user
   - UserList(Container)
     * action for getting all logged in users
-    - User(Presentational)
   - MessageList(Container)
     * action for getting all messages
     - Message(Presentational)
@@ -54,6 +53,7 @@ Redux:
     - messages
       - content
       - user(email)
+      - time
       - id(uuid) * might not be needed
 
 

@@ -1,4 +1,4 @@
-import { ADD_MESSAGE } from '../actionTypes';
+import { ADD_MESSAGE, ADD_USER } from '../actionTypes';
 
 const initialState = {
   users: [
@@ -28,6 +28,14 @@ function rootReducer(state = initialState, action) {
       messages: state.messages.concat(action.payload)
     });
   }
+
+  if(action.type === ADD_USER) {
+    console.log(action.payload);
+    return Object.assign({}, state, {
+      users: state.users.concat(action.payload)
+    });
+  }
+
   return state;
 }
 

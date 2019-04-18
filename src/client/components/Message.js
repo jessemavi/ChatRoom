@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Message = props => {
+const Message = ({ text, user, time }) => {
   return (
-    <p>{props.text} {props.user} {props.time}</p>
+    <p>
+      <i>{user}</i> : {text} {time}
+    </p>
   );
 }
 

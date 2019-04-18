@@ -62,6 +62,17 @@ Styling
   - avatars for users
 
 
+Extra
+- validate prop types
+
+- Solutions to check if a link is valid:
+https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+
+- Package to extract metadata from url:
+https://npm.runkit.com/url-metadata
+
+
+
 
 
 Server

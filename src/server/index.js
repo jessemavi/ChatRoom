@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const os = require('os');
 
@@ -13,6 +14,7 @@ app.set('port', port);
 app.use(express.static('dist'));
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/api/getUsername', (req, res) => res.send({ username: os.userInfo().username }));
 
@@ -46,6 +48,11 @@ const users = [
   {
     username: 'lion1',
     socketId: '111111',
+    status: 'active'
+  },
+  {
+    username: 'lion2',
+    socketId: '222',
     status: 'active'
   }
 ];

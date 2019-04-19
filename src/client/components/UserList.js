@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getActiveUsers } from '../redux-new/actions/auth';
 
-let UserList = ({ users }) => (
-  <div>
-    <h3>UserList Component</h3>
-    {users.map((user, index) => (
-      <p key={index}>{user.username}</p>
-    ))}
-  </div>
-);
+class UserList extends Component {
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    this.props.getActiveUsers();
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>UserList Component</h3>
+        {this.props.users.map((user, index) => (
+          <p key={index}>{user.username}</p>
+        ))}
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return { users: state.users };
 };
 
-UserList = connect(mapStateToProps)(UserList);
+UserList = connect(mapStateToProps, { getActiveUsers })(UserList);
 
 export default UserList;

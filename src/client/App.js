@@ -32,7 +32,6 @@ export default class App extends Component {
 
     socket.emit('message', 'Chat message #1');
     socket.emit('message', 'Chat message #2');
-    socket.emit('message', 'Chat message #3');
   }
 
   loginUser = () => this.setState({ loggedIn: true });

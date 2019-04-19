@@ -5,7 +5,7 @@ let UserList = ({ users }) => (
   <div>
     <h3>UserList Component</h3>
     {users.map((user, index) => (
-      <p key={index}>{user.email}</p>
+      <p key={index}>{user.username}</p>
     ))}
   </div>
 );

@@ -7,3 +7,7 @@ export function addUser(payload) {
     payload 
   };
 }
+
+export function getUsers() {
+  
+}

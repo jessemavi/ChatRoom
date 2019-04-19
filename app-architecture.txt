@@ -42,17 +42,18 @@ Redux:
     - ADD_MESSAGE
     - RECEIVED_MESSAGE
   - auth
-    - AUTH_LOGIN
-    - AUTH_LOGOUT
+    - ADD_USER
+    - REMOVE_USER
 
 - Store
   - State
     - users
-      - email
+      - username
       - id(socket.io id)
+      - status(active or inactive)
     - messages
       - content
-      - user(email)
+      - user(username)
       - time
       - id(uuid) * might not be needed
 
@@ -71,19 +72,26 @@ https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-ur
 - Package to extract metadata from url:
 https://npm.runkit.com/url-metadata
 
-
+https://socket.io/docs/emit-cheatsheet/
 
 
 
 Server
-
-- keep track of users(emails) in a object(easy to send back as json)
-  - key:email and value:socket id
+- keep track of users and messages in arrays
+  - array of objects
+    - user: username, socket id
+    - message: content, user, time
+- users:
   - GET route for '/users' to get all users
   - POST route for '/users' to add a user
     - check if user already exists 
 - when a user logs out(disconnects) 
+  - DELETE route for '/users/:socketID'
   - remove them from logged in users
     - can get unique id from socket.id
-  - emit the logged out user id
+  - emit the logged out user id to remove user for 
+- messages:
+  - GET route for '/messages' to get all current messages
+  - POST route for '/messages' to add a message
+
 - when a message is received emit the message

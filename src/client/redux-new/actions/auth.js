@@ -1,7 +1,15 @@
 import { ADD_USER, ACTIVE_USERS_LOADED } from '../actionTypes';
+import { socket } from '../../App';
 
 // action creator that returns an action
 export function addUser(payload) {
+  return function(dispatch) {
+    socket.emit('user', payload);
+    dispatch({ type: ADD_USER, payload: payload });
+  }
+}
+
+export function userAdded(payload) {
   return { 
     type: ADD_USER, 
     payload 

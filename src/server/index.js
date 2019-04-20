@@ -24,19 +24,30 @@ const io = socketIO(server);
 
 // This is what the socket.io syntax is like, we will work this later
 io.on('connection', socket => {
-  console.log('User connected')
-  console.log('id on connection: ', socket.id);
+  console.log(`id on connection: ${socket.id}`);
+  io.emit('connect', socket.id);
 
-  socket.on('message', (message) => {
-    console.log('socket.io message:', message);
-    io.emit('message', message);
-  })
+  socket.on('broadcast', data => {
+    console.log(`broadcast data: ${data}`);
+    socket.broadcast.emit('broadcast', data);
+  });
+
+  socket.on('message', message => {
+    console.log(`socket.io message: ${message}`);
+    // io.emit('message', message);
+    socket.broadcast.emit('broadcast', message);
+  });
+
+  socket.on('user', user => {
+    console.log(`socket.io user: ${user}`);
+    // io.emit('user', user);
+    socket.broadcast.emit('broadcast', user);
+  });
   
   socket.on('disconnect', () => {
-    console.log('id on disconnect: ', socket.id);
+    console.log(`id on disconnect: ${socket.id}`);
     io.emit('disconnect', socket.id);
-    console.log('user disconnected')
-  })
+  });
 });
 
 const users = [

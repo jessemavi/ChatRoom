@@ -1,11 +1,14 @@
 import { ADD_MESSAGE, MESSAGES_LOADED } from '../actionTypes';
 import { socket } from '../../App';
 
-// action creator that returns an action
 export function addMessage(payload) {
+  return function(dispatch) {
+    socket.emit('message', payload);
+    dispatch({ type: ADD_MESSAGE, payload: payload });
+  }
+}
 
-  socket.emit('message', payload);
-
+export function messageAdded(payload) {
   return { 
     type: ADD_MESSAGE, 
     payload 

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './app.css';
 import ReactImage from './react.png';
 
+import { connect } from 'react-redux';
+
 // import { Provider } from 'react-redux';
 // import { configureStore } from './redux/connect';
 
@@ -12,11 +14,14 @@ import UserList from './components/UserList';
 import MessageList from './components/MessageList';
 import AddMessage from './components/AddMessage';
 
+import { messageAdded } from './redux-new/actions/messages';
+import { userAdded } from './redux-new/actions/auth';
+
 export const socket = socketIO('http://localhost:8080');
 
 // const store = configureStore();
 
-export default class App extends Component {
+class ConnectedApp extends Component {
   state = { 
     username: null,
     loggedIn: true
@@ -29,10 +34,23 @@ export default class App extends Component {
 
     socket.on('connect', () => console.log('current logged in user socket id: ', socket.id));
     socket.on('disconnect', id => console.log('logged out user socket id: ', id));
-    socket.on('message', message => console.log('message: ', message));
 
-    socket.emit('message', 'Chat message #1');
-    socket.emit('message', 'Chat message #2');
+    socket.on('message', message => {
+      console.log('message: ', message);
+    });
+    
+    socket.on('user', user => {
+      console.log('user: ', user);
+    });
+
+    socket.on('broadcast', data => {
+      console.log(data);
+      if(data.content) {
+        this.props.messageAdded(data);
+      } else if(data.socketId) {
+        this.props.userAdded(data);
+      }
+    });
   }
 
   loginUser = () => this.setState({ loggedIn: true });
@@ -54,3 +72,14 @@ export default class App extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    messageAdded: message => dispatch(messageAdded(message)),
+    userAdded: user => dispatch(userAdded(user))
+  }
+}
+
+const App = connect(null, mapDispatchToProps)(ConnectedApp);
+
+export default App;

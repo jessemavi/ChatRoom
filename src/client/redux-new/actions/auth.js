@@ -3,9 +3,21 @@ import { socket } from '../../App';
 
 // action creator that returns an action
 export function addUser(payload) {
-  return function(dispatch) {
-    socket.emit('user', payload);
-    dispatch({ type: ADD_USER, payload: payload });
+  return async function(dispatch) {
+    try {
+      socket.emit('user', payload);
+      dispatch({ type: ADD_USER, payload: payload });
+      
+      const response = await fetch('http://localhost:8080/api/users', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+    } catch(err) {
+      return console.error(err);
+    }
   }
 }
 

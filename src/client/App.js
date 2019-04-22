@@ -15,7 +15,7 @@ import MessageList from './components/MessageList';
 import AddMessage from './components/AddMessage';
 
 import { messageAdded } from './redux-new/actions/messages';
-import { userAdded } from './redux-new/actions/auth';
+import { userAdded, userRemoved } from './redux-new/actions/auth';
 
 export const socket = socketIO('http://localhost:8080');
 
@@ -33,12 +33,16 @@ class ConnectedApp extends Component {
       .then(user => this.setState({ username: user.username }));
 
     socket.on('connect', () => console.log('current logged in user socket id: ', socket.id));
-    socket.on('disconnect', id => console.log('logged out user socket id: ', id));
+
+    socket.on('disconnect', id => {
+      console.log('logged out user socket id: ', id);
+      this.props.userRemoved({ socketId: id });
+    });
 
     socket.on('message', message => {
       console.log('message: ', message);
     });
-    
+
     socket.on('user', user => {
       console.log('user: ', user);
     });
@@ -76,7 +80,8 @@ class ConnectedApp extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     messageAdded: message => dispatch(messageAdded(message)),
-    userAdded: user => dispatch(userAdded(user))
+    userAdded: user => dispatch(userAdded(user)),
+    userRemoved: user => dispatch(userRemoved(user))
   }
 }
 

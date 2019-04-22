@@ -1,4 +1,4 @@
-import { ADD_MESSAGE, ADD_USER, ACTIVE_USERS_LOADED, MESSAGES_LOADED } from '../actionTypes';
+import { ADD_MESSAGE, ADD_USER, REMOVE_USER, ACTIVE_USERS_LOADED, MESSAGES_LOADED } from '../actionTypes';
 
 const initialState = {
   users: [],
@@ -17,6 +17,12 @@ function rootReducer(state = initialState, action) {
   if(action.type === ADD_USER) {
     return Object.assign({}, state, {
       users: state.users.concat(action.payload)
+    });
+  }
+
+  if(action.type === REMOVE_USER) {
+    return Object.assign({}, state, {
+      users: state.users.filter(user => user.socketId !== action.payload.socketId)
     });
   }
 

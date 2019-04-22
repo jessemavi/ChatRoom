@@ -92,6 +92,7 @@ app.post('/api/users', (req, res) => {
 });
 
 app.put('/api/users/:id', (req, res) => {
+  console.log(req.params.id);
   users.forEach((user, index) => {
     if(user.socketId === req.params.id) {
       user.status = 'inactive';

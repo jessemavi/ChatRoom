@@ -27,6 +27,8 @@ function rootReducer(state = initialState, action) {
   }
 
   if(action.type === ACTIVE_USERS_LOADED) {
+    console.log(state);
+    console.log(action.payload);
     return Object.assign({}, state, {
       users: state.users.concat(action.payload)
     })

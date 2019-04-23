@@ -33,7 +33,7 @@ export function removeUser(payload) {
     try {
       dispatch({ type: REMOVE_USER, payload: payload });
       const response = await fetch(`http://localhost:8080/api/users/${payload.socketId}`, {
-        method: 'put'
+        method: 'delete'
       });
     } catch(err) {
       return console.error(err);

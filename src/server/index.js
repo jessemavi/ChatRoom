@@ -54,8 +54,7 @@ const users = [];
 const messages = [];
 
 app.get('/api/users', (req, res) => {
-  const activeUsers = users.filter(user => user.status === 'active');
-  res.json(activeUsers);
+  res.json(users);
 });
 
 app.post('/api/users', (req, res) => {
@@ -63,11 +62,10 @@ app.post('/api/users', (req, res) => {
   res.send(req.body);
 });
 
-app.put('/api/users/:id', (req, res) => {
-  console.log(req.params.id);
+app.delete('/api/users/:id', (req, res) => {
   users.forEach((user, index) => {
     if(user.socketId === req.params.id) {
-      user.status = 'inactive';
+      users.splice(index, 1);
     }
   });
 

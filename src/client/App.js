@@ -15,7 +15,7 @@ import MessageList from './components/MessageList';
 import AddMessage from './components/AddMessage';
 
 import { messageAdded } from './redux-new/actions/messages';
-import { userAdded, userRemoved } from './redux-new/actions/auth';
+import { userAdded, userRemoved, removeUser } from './redux-new/actions/auth';
 
 export const socket = socketIO('http://localhost:8080');
 
@@ -24,7 +24,7 @@ export const socket = socketIO('http://localhost:8080');
 class ConnectedApp extends Component {
   state = { 
     username: null,
-    loggedIn: localStorage.hasOwnProperty('username') ? true : false
+    loggedIn: false
   };
 
   componentDidMount() {
@@ -39,7 +39,7 @@ class ConnectedApp extends Component {
 
     socket.on('disconnect', id => {
       console.log('logged out user socket id: ', id);
-      this.props.userRemoved({ socketId: id });
+      this.props.removeUser({ socketId: id });
     });
 
     socket.on('message', message => {
@@ -51,7 +51,7 @@ class ConnectedApp extends Component {
     });
 
     socket.on('broadcast', data => {
-      console.log(data);
+      console.log('broadcast data: ', data);
       if(data.content) {
         this.props.messageAdded(data);
       } else if(data.socketId) {
@@ -84,7 +84,8 @@ function mapDispatchToProps(dispatch) {
   return {
     messageAdded: message => dispatch(messageAdded(message)),
     userAdded: user => dispatch(userAdded(user)),
-    userRemoved: user => dispatch(userRemoved(user))
+    userRemoved: user => dispatch(userRemoved(user)),
+    removeUser: user => dispatch(removeUser(user))
   }
 }
 

@@ -18,7 +18,7 @@ class ConnectedAddMessage extends Component {
     event.preventDefault();
     this.props.addMessage({
       content: this.state.formValue,
-      user: 'TestUser',
+      user: localStorage.getItem('username'),
       time: Date.now()
     });
     this.setState({ formValue: '' });

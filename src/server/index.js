@@ -50,36 +50,8 @@ io.on('connection', socket => {
   });
 });
 
-const users = [
-  {
-    username: 'bear1',
-    socketId: '999999',
-    status: 'inactive'
-  },
-  {
-    username: 'lion1',
-    socketId: '111111',
-    status: 'active'
-  },
-  {
-    username: 'lion2',
-    socketId: '222',
-    status: 'active'
-  }
-];
-
-const messages = [
-  {
-    content: 'redux tutorials?',
-    user: 'bear1',
-    time: Date.now()
-  },
-  {
-    content: 'react tutorials?',
-    user: 'lion1',
-    time: Date.now()
-  }
-];
+const users = [];
+const messages = [];
 
 app.get('/api/users', (req, res) => {
   const activeUsers = users.filter(user => user.status === 'active');

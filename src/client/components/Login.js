@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addUser } from '../redux-new/actions/auth';
 
-class Login extends Component {
+class ConnectedLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: ''
+      username: ''
     };
   }
 
-  onFormChange = event => this.setState({ email: event.target.value });
+  onFormChange = event => this.setState({ username: event.target.value });
 
   onFormSubmit = event => {
     event.preventDefault();
-    // invoke authLogin action creator
+
+    localStorage.setItem('username', this.state.username);
+
+    this.props.addUser({ 
+      username: this.state.username, 
+      socketId: localStorage.getItem('socketId'), 
+      status: 'active' 
+    });
 
     this.props.loginUser();
   }
@@ -22,10 +31,10 @@ class Login extends Component {
       <div>
         <p>Login Component</p>
         <form>
-          <label>Email:
+          <label>Username:
             <input 
               type='text'
-              value={this.state.email}
+              value={this.state.username}
               onChange={this.onFormChange} 
             />
           </label>
@@ -39,5 +48,13 @@ class Login extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addUser: user => dispatch(addUser(user))
+  }
+}
+
+const Login = connect(null, mapDispatchToProps)(ConnectedLogin);
 
 export default Login;

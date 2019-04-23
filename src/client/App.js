@@ -24,7 +24,7 @@ export const socket = socketIO('http://localhost:8080');
 class ConnectedApp extends Component {
   state = { 
     username: null,
-    loggedIn: true
+    loggedIn: localStorage.hasOwnProperty('username') ? true : false
   };
 
   componentDidMount() {
@@ -32,7 +32,10 @@ class ConnectedApp extends Component {
       .then(res => res.json())
       .then(user => this.setState({ username: user.username }));
 
-    socket.on('connect', () => console.log('current logged in user socket id: ', socket.id));
+    socket.on('connect', () => {
+      console.log('current logged in user socket id: ', socket.id);
+      localStorage.setItem('socketId', socket.id);
+    });
 
     socket.on('disconnect', id => {
       console.log('logged out user socket id: ', id);

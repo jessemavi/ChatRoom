@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getMessages } from '../redux-new/actions/messages';
+import { Comment, Header } from 'semantic-ui-react';
 
 import Message from './Message';
 
@@ -15,8 +16,8 @@ class MessageList extends Component {
 
   render() {
     return (
-      <div>
-        <h3>MessageList Component</h3>
+      <Comment.Group>
+        <Header as='h3'>Messages</Header>
         {this.props.messages.map((message, index) => (
           <Message 
             key={index}
@@ -25,7 +26,7 @@ class MessageList extends Component {
             time={message.time}
           />
         ))}
-      </div>
+      </Comment.Group>
     );
   }
 }

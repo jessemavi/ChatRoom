@@ -3,6 +3,7 @@ import './app.css';
 import ReactImage from './react.png';
 
 import { connect } from 'react-redux';
+import { Grid } from 'semantic-ui-react';
 
 // import { Provider } from 'react-redux';
 // import { configureStore } from './redux/connect';
@@ -69,11 +70,15 @@ class ConnectedApp extends Component {
         ?
           <Login loginUser={this.loginUser} />
         :
-          <div>
-            <UserList />
-            <MessageList />
-            <AddMessage />
-          </div>
+          <Grid>
+            <Grid.Column width={2}>
+              <UserList />
+            </Grid.Column>
+            <Grid.Column width={10}>
+              <MessageList />
+              <AddMessage />
+            </Grid.Column>
+          </Grid>
         }
       </div>
     );

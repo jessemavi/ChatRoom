@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { List, Image } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { getActiveUsers } from '../redux-new/actions/auth';
 
@@ -13,12 +14,17 @@ class UserList extends Component {
 
   render() {
     return (
-      <div>
-        <h3>UserList Component</h3>
+      <List>
+        <List.Header as='h3'>Users</List.Header>
         {this.props.users.map((user, index) => (
-          <p key={index}>{user.username}</p>
+          <List.Item>
+            <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
+            <List.Content>
+              <List.Header>{user.username}</List.Header>
+            </List.Content>
+          </List.Item>
         ))}
-      </div>
+      </List>
     );
   }
 }

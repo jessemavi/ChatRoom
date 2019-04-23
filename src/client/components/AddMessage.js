@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Form, TextArea } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addMessage } from '../redux-new/actions/messages';
 
@@ -19,21 +20,21 @@ class ConnectedAddMessage extends Component {
     this.props.addMessage({
       content: this.state.formValue,
       user: localStorage.getItem('username'),
-      time: Date.now()
+      time: new Date().toString()
     });
     this.setState({ formValue: '' });
   }
 
   render() {
     return (
-      <form onSubmit={this.onFormSubmit}>
+      <Form onSubmit={this.onFormSubmit}>
         <input 
           type='text'
           placeholder='Enter a message'
           value={this.state.formValue} 
           onChange={this.onFormChange}
         />
-      </form>
+      </Form>
     );
   }
 }

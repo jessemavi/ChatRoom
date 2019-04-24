@@ -2,10 +2,10 @@ import { ADD_MESSAGE, MESSAGES_LOADED } from '../actionTypes';
 import { socket } from '../../App';
 
 async function checkMessageForURL(payload) {
-  const messageArray = payload.content.split(' ');
+  const message = payload.content.split(' ');
   const urls = [];
 
-  messageArray.forEach(word => {
+  message.forEach(word => {
     try {
       const isURL = new URL(word);
       urls.push(word);
@@ -14,7 +14,10 @@ async function checkMessageForURL(payload) {
     }
   });
 
-  if(urls.length === 0) return;
+  if(urls.length === 0) {
+    payload.urlMetadata = [];
+    return;
+  }
 
   const requests = urls.map(url => fetch('http://localhost:8080/api/metadata', {
     method: 'post',
@@ -27,11 +30,16 @@ async function checkMessageForURL(payload) {
   await Promise.all(requests)
     .then(responses => Promise.all(responses.map(response => response.json()))
     .then(metadataResults => {
-      console.log(metadataResults);
-      const lastUrlMetadata = metadataResults[metadataResults.length - 1];
-      payload.title = lastUrlMetadata.title;
-      payload.description = lastUrlMetadata.description;
-      payload.image = lastUrlMetadata.image;
+      const urlMetadata = metadataResults.map(result => {
+        return {
+          title: result.title,
+          description: result.description,
+          image: result.image,
+          url: result.url,
+          source: result.source
+        }
+      });
+      payload.urlMetadata = urlMetadata;
     })
     .catch(err => console.error(err)));
 }

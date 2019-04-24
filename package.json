@@ -22,6 +22,7 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.3",
+    "html-metadata": "git://github.com/wikimedia/html-metadata.git",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-redux": "^6.0.0",
@@ -31,7 +32,8 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0",
     "socket.io": "^2.2.0",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "url-metadata": "^2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

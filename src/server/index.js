@@ -3,6 +3,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const urlMetadata = require('url-metadata')
 
 const os = require('os');
 
@@ -77,8 +78,15 @@ app.get('/api/messages', (req, res) => {
 });
 
 app.post('/api/messages', (req, res) => {
+  console.log(req.body);
   messages.push(req.body);
   res.send(req.body);
+});
+
+app.post('/api/metadata', async (req, res) => {
+  const metadata = await urlMetadata(req.body.url);
+  // console.log(metadata);
+  res.json(metadata);
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}!`));

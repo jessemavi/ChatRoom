@@ -17,7 +17,7 @@ class UserList extends Component {
       <List>
         <List.Header as='h3'>Users</List.Header>
         {this.props.users.map((user, index) => (
-          <List.Item>
+          <List.Item key={index}>
             <Image avatar src='https://react.semantic-ui.com/images/avatar/small/rachel.png' />
             <List.Content>
               <List.Header>{user.username}</List.Header>

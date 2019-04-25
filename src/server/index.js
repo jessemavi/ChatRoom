@@ -84,9 +84,12 @@ app.post('/api/messages', (req, res) => {
 });
 
 app.post('/api/metadata', async (req, res) => {
-  const metadata = await urlMetadata(req.body.url);
-  // console.log(metadata);
-  res.json(metadata);
+  try {
+    const metadata = await urlMetadata(req.body.url);
+    res.json(metadata);
+  } catch(err) {
+    console.error(err);
+  }
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}!`));

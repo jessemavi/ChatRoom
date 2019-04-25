@@ -12,8 +12,16 @@ const Message = ({ content, user, time, urlMetadata }) => {
         {urlMetadata.length > 0 ?
           <Card.Group>
             {urlMetadata.map((metadata, index) => (
-              <Card key={index} href={metadata.url}>
-                <Image src={metadata.image} fluid />
+              <Card 
+                key={index} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                href={metadata.url}
+              >
+                {metadata.image !== '' ? 
+                  <Image src={metadata.image} fluid /> :
+                  null
+                }
                 <Card.Header style={{color:'black'}}>{metadata.title}</Card.Header>
                 <Card.Description style={{color:'grey'}}>{metadata.description}</Card.Description>
                   <Card.Description style={{color:'grey'}}>

@@ -8,19 +8,25 @@ import Message from './Message';
 class MessageList extends Component {
   constructor() {
     super();
-    this.messageListElement = React.createRef();
-
+    this.messageList = React.createRef();
   }
 
-  componentDidMount() {
-    this.props.getMessages();
+  async componentDidMount() {
+    await this.props.getMessages();
+    // using requestAnimationFrame instead of a timeout would be better
+    setTimeout(() => {
+      this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
+    }, 100)
   }
 
-  setScrollTop() {
-    this.messageListElement.scrollTop = 400;
+  componentDidUpdate() {
+    // using requestAnimationFrame instead of a timeout would be better
+    setTimeout(() => {
+      this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
+    }, 50)
   }
 
-  removeURLs = (message) => {
+  removeURLs(message) {
     let result = '';
     const messageArray = message.split(' ');
 
@@ -38,33 +44,28 @@ class MessageList extends Component {
 
   render() {
     return (
-      <Comment.Group 
-        style={
-          {
-            maxHeight: '750px',
-            overflow: 'auto'
-            // overflowX: 'auto', 
-            // overflowY: 'auto',
-          }
-        }
-      >
+      <div>
         <Header as='h3'>Messages</Header>
-        {this.props.messages.map((message, index) => {
-          return (
-            <Message 
-              key={index}
-              user={message.user}
-              content={
-                message.urlMetadata.length > 0 ?
+        <div
+          ref={this.messageList}
+          style={{ height: '85vh', overflow: 'auto' }}
+        >
+          <Comment.Group>
+            {this.props.messages.map((message, index) => (
+              <Message 
+                key={index}
+                user={message.user}
+                content={message.urlMetadata.length > 0 ?
                   this.removeURLs(message.content) :
                   message.content
-              }
-              time={message.time}
-              urlMetadata={message.urlMetadata}
-            />
-          );
-        })}
-      </Comment.Group>
+                }
+                time={message.time}
+                urlMetadata={message.urlMetadata}
+              />
+            ))}
+          </Comment.Group>
+        </div>
+      </div>
     );
   }
 }

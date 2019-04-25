@@ -31,10 +31,11 @@ async function checkMessageForURL(payload) {
     .then(responses => Promise.all(responses.map(response => response.json()))
     .then(metadataResults => {
       const urlMetadata = metadataResults.map(result => {
+        const imageUrl = result.image.includes('http') ? result.image : result.url + result.image.substring(1);
         return {
           title: result.title,
           description: result.description,
-          image: result.image,
+          image: imageUrl,
           url: result.url,
           source: result.source
         }

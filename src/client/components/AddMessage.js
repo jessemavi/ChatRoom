@@ -17,6 +17,7 @@ class ConnectedAddMessage extends Component {
 
   onFormSubmit = (event) => {
     event.preventDefault();
+    if(this.state.formValue === '') return;
     this.props.addMessage({
       content: this.state.formValue,
       user: localStorage.getItem('username'),

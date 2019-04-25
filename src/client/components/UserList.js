@@ -14,7 +14,12 @@ class UserList extends Component {
 
   render() {
     return (
-      <List>
+      <List
+        style={{
+          maxHeight: '750px',
+          overflow: 'auto'
+        }}
+      >
         <List.Header as='h3'>Users</List.Header>
         {this.props.users.map((user, index) => (
           <List.Item key={index}>

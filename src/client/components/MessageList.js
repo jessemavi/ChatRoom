@@ -8,10 +8,16 @@ import Message from './Message';
 class MessageList extends Component {
   constructor() {
     super();
+    this.messageListElement = React.createRef();
+
   }
 
   componentDidMount() {
     this.props.getMessages();
+  }
+
+  setScrollTop() {
+    this.messageListElement.scrollTop = 400;
   }
 
   removeURLs = (message) => {
@@ -32,7 +38,16 @@ class MessageList extends Component {
 
   render() {
     return (
-      <Comment.Group>
+      <Comment.Group 
+        style={
+          {
+            maxHeight: '750px',
+            overflow: 'auto'
+            // overflowX: 'auto', 
+            // overflowY: 'auto',
+          }
+        }
+      >
         <Header as='h3'>Messages</Header>
         {this.props.messages.map((message, index) => {
           return (

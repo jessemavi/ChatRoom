@@ -13,7 +13,7 @@ const Message = ({ content, user, time, urlMetadata }) => {
           <Card.Group>
             {urlMetadata.map((metadata, index) => (
               <Card key={index} href={metadata.url}>
-                <Image src={metadata.image} />
+                <Image src={metadata.image} fluid />
                 <Card.Header style={{color:'black'}}>{metadata.title}</Card.Header>
                 <Card.Description style={{color:'grey'}}>{metadata.description}</Card.Description>
                   <Card.Description style={{color:'grey'}}>

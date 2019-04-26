@@ -21,13 +21,15 @@ class MessageList extends Component {
   }
 
   scrollToBottom() {
+    if(this.props.messages.length === 0) return;
+
     // using requestAnimationFrame instead of a timeout would be better
     const newestMessage = this.props.messages[this.props.messages.length - 1];
 
     if(newestMessage.urlMetadata.length > 0) {
       setTimeout(() => {
         this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
-      }, 150)
+      }, 300)
     } else {
       this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
     }

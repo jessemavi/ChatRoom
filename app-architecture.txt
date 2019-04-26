@@ -77,6 +77,20 @@ https://socket.io/docs/emit-cheatsheet/
 
 
 
+Tagging a User:
+- message is broadcast
+- check the message for any users mentioned
+  - if a user is mentioned and that user's socketId matches currently logged in socketId in localStorage
+    - alert mentioned user
+
+
+***
+- socket.on('disconnect') doesn't run when page is refreshed
+- need to handle page refresh
+***
+
+
+
 Server
 - keep track of users and messages in arrays
   - array of objects

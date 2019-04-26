@@ -67,6 +67,7 @@ app.delete('/api/users/:id', (req, res) => {
   users.forEach((user, index) => {
     if(user.socketId === req.params.id) {
       users.splice(index, 1);
+      console.log(users);
     }
   });
 

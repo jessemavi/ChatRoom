@@ -33,8 +33,16 @@ class ConnectedApp extends Component {
       .then(res => res.json())
       .then(user => this.setState({ username: user.username }));
 
+    window.addEventListener('beforeunload', () => {
+      if(localStorage.getItem('socketId')) {
+        this.props.removeUser({ socketId: localStorage.getItem('socketId') });
+        localStorage.removeItem('socketId');
+        localStorage.removeItem('username');
+      }
+    });
+
     socket.on('connect', () => {
-      console.log('current logged in user socket id: ', socket.id);
+      console.log('current session socket id: ', socket.id);
       localStorage.setItem('socketId', socket.id);
     });
 

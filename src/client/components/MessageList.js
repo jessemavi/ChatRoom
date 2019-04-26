@@ -13,17 +13,24 @@ class MessageList extends Component {
 
   async componentDidMount() {
     await this.props.getMessages();
-    // using requestAnimationFrame instead of a timeout would be better
-    setTimeout(() => {
-      this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
-    }, 100)
+    this.scrollToBottom();
   }
 
   componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
     // using requestAnimationFrame instead of a timeout would be better
-    setTimeout(() => {
+    const newestMessage = this.props.messages[this.props.messages.length - 1];
+
+    if(newestMessage.urlMetadata.length > 0) {
+      setTimeout(() => {
+        this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
+      }, 150)
+    } else {
       this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
-    }, 50)
+    }
   }
 
   removeURLs(message) {

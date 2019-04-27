@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getMessages } from '../redux-new/actions/messages';
 import { Comment, Header } from 'semantic-ui-react';
-
+import { getMessages } from '../redux-new/actions/messages';
 import Message from './Message';
 
 class MessageList extends Component {
   constructor() {
     super();
     this.messageList = React.createRef();
+    this.audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
   }
 
   async componentDidMount() {
@@ -18,6 +18,7 @@ class MessageList extends Component {
 
   componentDidUpdate() {
     this.scrollToBottom();
+    this.checkNewestMessageForMention();
   }
 
   scrollToBottom() {
@@ -35,6 +36,15 @@ class MessageList extends Component {
     }
   }
 
+  checkNewestMessageForMention() {
+    if(this.props.messages.length === 0) return;
+
+    const newestMessage = this.props.messages[this.props.messages.length - 1];
+    if(newestMessage.content.includes(`@${localStorage.getItem('username')}`)) {
+      this.audio.play();
+    }
+  }
+
   removeURLs(message) {
     let result = '';
     const messageArray = message.split(' ');
@@ -42,7 +52,11 @@ class MessageList extends Component {
     messageArray.forEach(word => {
       try {
         const isURL = new URL(word);
-        result += '';
+        if(word.includes('http')) {
+          result += '';
+        } else {
+          result += ` ${word}`;
+        }
       } catch(err) {
         result += ` ${word}`;
       }

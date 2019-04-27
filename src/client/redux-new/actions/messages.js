@@ -8,7 +8,9 @@ async function checkMessageForURL(payload) {
   message.forEach(word => {
     try {
       const isURL = new URL(word);
-      urls.push(word);
+      if(word.includes('http')) {
+        urls.push(word);
+      }
     } catch(err) {
       // ignore word in message that is not a url and continue to next word
     }
@@ -34,7 +36,7 @@ async function checkMessageForURL(payload) {
         const imageUrl = result.image === '' || result.image.includes('http') ? 
           result.image : 
           result.url + result.image.substring(1);
-          
+
         return {
           title: result.title,
           description: result.description,

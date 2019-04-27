@@ -3,7 +3,7 @@ import './app.css';
 import ReactImage from './react.png';
 
 import { connect } from 'react-redux';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Button } from 'semantic-ui-react';
 
 // import { Provider } from 'react-redux';
 // import { configureStore } from './redux/connect';
@@ -16,7 +16,7 @@ import MessageList from './components/MessageList';
 import AddMessage from './components/AddMessage';
 
 import { messageAdded } from './redux-new/actions/messages';
-import { userAdded, userRemoved, removeUser } from './redux-new/actions/auth';
+import { userAdded, removeUser, logoutUser } from './redux-new/actions/auth';
 
 export const socket = socketIO('http://localhost:8080');
 
@@ -24,39 +24,23 @@ export const socket = socketIO('http://localhost:8080');
 
 class ConnectedApp extends Component {
   state = { 
-    username: null,
     loggedIn: false
   };
 
   componentDidMount() {
-    fetch('/api/getUsername')
-      .then(res => res.json())
-      .then(user => this.setState({ username: user.username }));
-
-    window.addEventListener('beforeunload', () => {
-      if(localStorage.getItem('socketId')) {
-        this.props.removeUser({ socketId: localStorage.getItem('socketId') });
-        localStorage.removeItem('socketId');
-        localStorage.removeItem('username');
-      }
-    });
-
     socket.on('connect', () => {
       console.log('current session socket id: ', socket.id);
       localStorage.setItem('socketId', socket.id);
+      this.setState({ socketId: socket.id });
     });
 
     socket.on('disconnect', id => {
+      console.log(id, localStorage.getItem('socketId'));
       console.log('logged out user socket id: ', id);
-      this.props.removeUser({ socketId: id });
-    });
-
-    socket.on('message', message => {
-      console.log('message: ', message);
-    });
-
-    socket.on('user', user => {
-      console.log('user: ', user);
+      this.props.removeUser({ 
+        socketId: id,
+        username: localStorage.getItem('username')
+      });
     });
 
     socket.on('broadcast', data => {
@@ -69,7 +53,19 @@ class ConnectedApp extends Component {
     });
   }
 
-  loginUser = () => this.setState({ loggedIn: true });
+  loginUser = (username) => {
+    this.setState({ 
+      loggedIn: true,
+      username: username 
+    });
+  }
+
+  logoutUser = () => {
+    socket.disconnect();
+    this.props.logoutUser();
+    this.setState({ loggedIn: false });
+    socket.connect();
+  }
 
   render() {
     return (
@@ -78,15 +74,20 @@ class ConnectedApp extends Component {
         ?
           <Login loginUser={this.loginUser} />
         :
-          <Grid>
-            <Grid.Column width={2}>
-              <UserList />
-            </Grid.Column>
-            <Grid.Column width={10}>
-              <MessageList />
-              <AddMessage />
-            </Grid.Column>
-          </Grid>
+          <div>
+            {
+            /*<Button onClick={this.logoutUser}>Logout</Button>*/
+            }
+            <Grid>
+              <Grid.Column width={3}>
+                <UserList />
+              </Grid.Column>
+              <Grid.Column width={10}>
+                <MessageList />
+                <AddMessage />
+              </Grid.Column>
+            </Grid>
+          </div>
         }
       </div>
     );
@@ -97,8 +98,8 @@ function mapDispatchToProps(dispatch) {
   return {
     messageAdded: message => dispatch(messageAdded(message)),
     userAdded: user => dispatch(userAdded(user)),
-    userRemoved: user => dispatch(userRemoved(user)),
-    removeUser: user => dispatch(removeUser(user))
+    removeUser: user => dispatch(removeUser(user)),
+    logoutUser: () => dispatch(logoutUser())
   }
 }
 

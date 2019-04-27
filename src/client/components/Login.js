@@ -15,7 +15,6 @@ class ConnectedLogin extends Component {
 
   onFormSubmit = event => {
     event.preventDefault();
-
     localStorage.setItem('username', this.state.username);
 
     this.props.addUser({ 
@@ -31,7 +30,7 @@ class ConnectedLogin extends Component {
     return (
       <div className='login-form'>
         {/*
-          Heads up! The styles below are necessary for the correct render of this example. You can do same with CSS, the main idea is that all the elements up to the `Grid` below must have a height of 100%.
+          Taken straight from this example: https://react.semantic-ui.com/layouts/login
         */}
         <style>{`
           body > div,

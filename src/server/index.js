@@ -58,8 +58,25 @@ app.get('/api/users', (req, res) => {
   res.json(users);
 });
 
+app.get('/api/activeUsers', (req, res) => {
+  const activeUsers = users.filter(user => {
+    return user.status === 'active';
+  });
+  res.json(activeUsers);
+});
+
 app.post('/api/users', (req, res) => {
-  users.push(req.body);
+  const userIndex = users.findIndex(user => {
+    return user.username === req.body.username;
+  });
+
+  if(userIndex !== -1) {
+    users[userIndex].socketId = req.body.socketId;
+    users[userIndex].status = 'active';
+  } else {
+    users.push(req.body);
+  }
+
   res.send(req.body);
 });
 
@@ -72,6 +89,29 @@ app.delete('/api/users/:id', (req, res) => {
   });
 
   res.send(req.params.id);
+});
+
+app.put('/api/users', (req, res) => {
+  console.log('put request', req.body);
+  // const userIndex = users.findIndex(user => {
+  //   return user.socketId === req.params.id;
+  // });
+
+  // if(userIndex !== -1) {
+  //   console.log('updating user');
+  //   users[userIndex].status = 'inactive';
+  //   console.log(users);
+  // }
+
+  const userIndex = users.findIndex(user => {
+    return user.username === req.body.username;
+  })
+
+  if(userIndex !== -1) {
+    users[userIndex].status = 'inactive';
+  }
+
+  res.send(req.body);
 });
 
 app.get('/api/messages', (req, res) => {

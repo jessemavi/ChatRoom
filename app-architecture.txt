@@ -58,10 +58,16 @@ Redux:
       - id(uuid) * might not be needed
 
 
+
+Tagging a User:
+- message is broadcast
+- check the message for user mentioned
+  - if the user is mentioned
+    - alert mentioned user
+
 Styling
 - Semantic UI React
   - avatars for users
-
 
 Extra
 - validate prop types
@@ -76,17 +82,14 @@ https://npm.runkit.com/url-metadata
 https://socket.io/docs/emit-cheatsheet/
 
 
-
-Tagging a User:
-- message is broadcast
-- check the message for any users mentioned
-  - if a user is mentioned and that user's socketId matches currently logged in socketId in localStorage
-    - alert mentioned user
+***
+- use socket id on actions that don't involve server requests
+- use username for actions that involve server requests
+***
 
 
 ***
-- socket.on('disconnect') doesn't run when page is refreshed
-- need to handle page refresh
+- logout doesn't work with current structure because of how socket.disconnect() and socket.connect work
 ***
 
 

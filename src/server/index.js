@@ -28,20 +28,18 @@ io.on('connection', socket => {
   console.log(`id on connection: ${socket.id}`);
   io.emit('connect', socket.id);
 
-  socket.on('broadcast', data => {
-    console.log(`broadcast data: ${data}`);
-    socket.broadcast.emit('broadcast', data);
-  });
+  // socket.on('broadcast', data => {
+  //   console.log(`broadcast data: ${data}`);
+  //   socket.broadcast.emit('broadcast', data);
+  // });
 
   socket.on('message', message => {
     console.log(`socket.io message: ${message}`);
-    // io.emit('message', message);
     socket.broadcast.emit('broadcast', message);
   });
 
   socket.on('user', user => {
     console.log(`socket.io user: ${user}`);
-    // io.emit('user', user);
     socket.broadcast.emit('broadcast', user);
   });
   
@@ -93,23 +91,23 @@ app.delete('/api/users/:id', (req, res) => {
 
 app.put('/api/users', (req, res) => {
   console.log('put request', req.body);
-  // const userIndex = users.findIndex(user => {
-  //   return user.socketId === req.params.id;
-  // });
-
-  // if(userIndex !== -1) {
-  //   console.log('updating user');
-  //   users[userIndex].status = 'inactive';
-  //   console.log(users);
-  // }
-
   const userIndex = users.findIndex(user => {
-    return user.username === req.body.username;
-  })
+    return user.socketId === req.body.socketId;
+  });
 
   if(userIndex !== -1) {
+    console.log('updating user');
     users[userIndex].status = 'inactive';
+    console.log(users);
   }
+
+  // const userIndex = users.findIndex(user => {
+  //   return user.username === req.body.username;
+  // })
+
+  // if(userIndex !== -1) {
+  //   users[userIndex].status = 'inactive';
+  // }
 
   res.send(req.body);
 });

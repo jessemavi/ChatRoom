@@ -35,6 +35,7 @@ class MessageList extends Component {
 
     const newestMessage = this.props.messages[this.props.messages.length - 1];
     if(newestMessage.content.includes(`@${localStorage.getItem('username')}`)) {
+      console.log('user mentioned');
       this.audio.play();
     }
   }

@@ -25,15 +25,9 @@ class MessageList extends Component {
     if(this.props.messages.length === 0) return;
 
     // using requestAnimationFrame instead of a timeout would be better
-    const newestMessage = this.props.messages[this.props.messages.length - 1];
-
-    if(newestMessage.urlMetadata.length > 0) {
-      setTimeout(() => {
-        this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
-      }, 300)
-    } else {
+    setTimeout(() => {
       this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
-    }
+    }, 300)
   }
 
   checkNewestMessageForMention() {

@@ -28,19 +28,14 @@ io.on('connection', socket => {
   console.log(`id on connection: ${socket.id}`);
   io.emit('connect', socket.id);
 
-  // socket.on('broadcast', data => {
-  //   console.log(`broadcast data: ${data}`);
-  //   socket.broadcast.emit('broadcast', data);
-  // });
-
   socket.on('message', message => {
     console.log(`socket.io message: ${message}`);
-    socket.broadcast.emit('broadcast', message);
+    io.emit('message', message);
   });
 
   socket.on('user', user => {
     console.log(`socket.io user: ${user}`);
-    socket.broadcast.emit('broadcast', user);
+    io.emit('user', user);
   });
   
   socket.on('disconnect', () => {

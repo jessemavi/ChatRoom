@@ -6,7 +6,6 @@ export function addUser(payload) {
   return async function(dispatch) {
     try {
       socket.emit('user', payload);
-      dispatch({ type: ADD_USER, payload: payload });
       
       const response = await fetch('http://localhost:8080/api/users', {
         method: 'post',

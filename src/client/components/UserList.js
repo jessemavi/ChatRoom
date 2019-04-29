@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { List, Image, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { getActiveUsers } from '../redux-new/actions/auth';
+import { getActiveUsers } from '../redux-new/actions/users';
 
 class UserList extends Component {
   constructor() {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addUser } from '../redux-new/actions/auth';
+import { addUser } from '../redux-new/actions/users';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
 class ConnectedLogin extends Component {

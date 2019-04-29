@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './app.css';
-import ReactImage from './react.png';
+// import ReactImage from './react.png';
 
 import { connect } from 'react-redux';
 import { Grid, Button } from 'semantic-ui-react';
@@ -11,85 +11,73 @@ import { Grid, Button } from 'semantic-ui-react';
 import socketIO from 'socket.io-client';
 
 import Login from './components/Login';
-import UserList from './components/UserList';
-import MessageList from './components/MessageList';
-import AddMessage from './components/AddMessage';
+import ChatRoom from './components/ChatRoom';
 
 import { messageAdded } from './redux-new/actions/messages';
-import { userAdded, removeUser, logoutUser } from './redux-new/actions/auth';
+import { userAdded, removeUser, logoutUser } from './redux-new/actions/users';
 
 export const socket = socketIO('http://localhost:8080');
 
 // const store = configureStore();
 
 class ConnectedApp extends Component {
-  state = { 
-    loggedIn: false
-  };
+  constructor() {
+    super();
+    this.state = { 
+      loggedIn: false
+    };
+  }
 
   componentDidMount() {
     socket.on('connect', () => {
       console.log('current session socket id: ', socket.id);
       localStorage.setItem('socketId', socket.id);
-      this.setState({ socketId: socket.id });
     });
 
     socket.on('disconnect', id => {
       console.log(id, localStorage.getItem('socketId'));
       console.log('logged out user socket id: ', id);
+      // if(id === 'forced close' || 'io client disconnect') {
+      //   id = localStorage.getItem('socketId');
+      // }
+
       this.props.removeUser({ 
-        socketId: id,
-        username: localStorage.getItem('username')
+        socketId: id
       });
     });
 
-    socket.on('broadcast', data => {
-      console.log('broadcast data: ', data);
-      if(data.content) {
-        this.props.messageAdded(data);
-      } else if(data.socketId) {
-        this.props.userAdded(data);
-      }
+    socket.on('message', message => {
+      this.props.messageAdded(message);
+    });
+
+    socket.on('user', user => {
+      this.props.userAdded(user);
+    });
+
+    window.addEventListener('beforeunload', () => {
+      socket.disconnect(socket.id);
     });
   }
 
   loginUser = (username) => {
     this.setState({ 
-      loggedIn: true,
-      username: username 
+      loggedIn: true
     });
   }
 
   logoutUser = () => {
     socket.disconnect();
-    this.props.logoutUser();
     this.setState({ loggedIn: false });
     socket.connect();
   }
 
   render() {
     return (
-      <div>
-        {!this.state.loggedIn 
+        !this.state.loggedIn 
         ?
           <Login loginUser={this.loginUser} />
         :
-          <div>
-            {
-            /*<Button onClick={this.logoutUser}>Logout</Button>*/
-            }
-            <Grid>
-              <Grid.Column width={3}>
-                <UserList />
-              </Grid.Column>
-              <Grid.Column width={10}>
-                <MessageList />
-                <AddMessage />
-              </Grid.Column>
-            </Grid>
-          </div>
-        }
-      </div>
+        <ChatRoom logoutUser={this.logoutUser} />  
     );
   }
 }

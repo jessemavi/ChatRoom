@@ -55,7 +55,6 @@ export function addMessage(payload) {
     try {
       await checkMessageForURL(payload);
       socket.emit('message', payload);
-      dispatch({ type: ADD_MESSAGE, payload: payload });
 
       const response = await fetch('http://localhost:8080/api/messages', {
         method: 'post',

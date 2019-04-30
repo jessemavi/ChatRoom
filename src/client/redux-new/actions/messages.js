@@ -1,6 +1,45 @@
 import { ADD_MESSAGE, MESSAGES_LOADED } from '../actionTypes';
 import { socket } from '../../App';
 
+// action creator that returns an action
+export function addMessage(payload) {
+  return async function(dispatch) {
+    try {
+      await checkMessageForURL(payload);
+      socket.emit('message', payload);
+
+      const response = await fetch('http://localhost:8080/api/messages', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+    } catch(err) {
+      return console.error(err);
+    }
+  }
+}
+
+export function messageAdded(payload) {
+  return { 
+    type: ADD_MESSAGE, 
+    payload 
+  };
+}
+
+export function getMessages() {
+  return async function(dispatch) {
+    try {
+      const response = await fetch('http://localhost:8080/api/messages');
+      const messages = await response.json();
+      dispatch({ type: MESSAGES_LOADED, payload: messages });
+    } catch(err) {
+      return console.error(err);
+    }
+  }
+}
+
 async function checkMessageForURL(payload) {
   const message = payload.content.split(' ');
   const urls = [];
@@ -48,42 +87,4 @@ async function checkMessageForURL(payload) {
       payload.urlMetadata = urlMetadata;
     })
     .catch(err => console.error(err)));
-}
-
-export function addMessage(payload) {
-  return async function(dispatch) {
-    try {
-      await checkMessageForURL(payload);
-      socket.emit('message', payload);
-
-      const response = await fetch('http://localhost:8080/api/messages', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-    } catch(err) {
-      return console.error(err);
-    }
-  }
-}
-
-export function messageAdded(payload) {
-  return { 
-    type: ADD_MESSAGE, 
-    payload 
-  };
-}
-
-export function getMessages() {
-  return async function(dispatch) {
-    try {
-      const response = await fetch('http://localhost:8080/api/messages');
-      const messages = await response.json();
-      dispatch({ type: MESSAGES_LOADED, payload: messages });
-    } catch(err) {
-      return console.error(err);
-    }
-  }
 }

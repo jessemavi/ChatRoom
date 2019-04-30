@@ -25,8 +25,7 @@ const Message = ({ content, user, time, urlMetadata }) => {
                 <Card.Header style={{color:'black'}}>{metadata.title}</Card.Header>
                 <Card.Description style={{color:'grey'}}>{metadata.description}</Card.Description>
                   <Card.Description style={{color:'grey'}}>
-                    <Icon name='linkify'/>
-                    {metadata.source}
+                    <Icon name='linkify'/>{metadata.source}
                   </Card.Description>
               </Card>
             ))}

@@ -3,7 +3,7 @@ import { Form, TextArea } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addMessage } from '../redux-new/actions/messages';
 
-class ConnectedAddMessage extends Component {
+class AddMessage extends Component {
   constructor() {
     super();
     this.state = {
@@ -46,6 +46,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-const AddMessage = connect(null, mapDispatchToProps)(ConnectedAddMessage);
-
-export default AddMessage;
+export default connect(null, mapDispatchToProps)(AddMessage);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { addUser } from '../redux-new/actions/users';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 
-class ConnectedLogin extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,6 +73,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-const Login = connect(null, mapDispatchToProps)(ConnectedLogin);
-
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);

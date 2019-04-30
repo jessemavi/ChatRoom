@@ -4,12 +4,11 @@ export function users(state = [], action) {
   console.log('action payload: ', action.payload);
 
   if(action.type === ADD_USER) {
-    return state.concat(action.payload)
+    return state.concat(action.payload);
   }
 
   if(action.type === REMOVE_USER) {
-    console.log('REMOVE_USER action', state, action.payload);
-    return state.filter(user => user.socketId !== action.payload.socketId)
+    return state.filter(user => user.socketId !== action.payload.socketId);
   }
 
   if(action.type === LOGOUT_USER) {
@@ -17,9 +16,6 @@ export function users(state = [], action) {
   }
 
   if(action.type === ACTIVE_USERS_LOADED) {
-    console.log(state);
-    console.log(action.payload);
-
     let activeUsersInState = state.slice();
     
     action.payload.forEach(user => {
@@ -35,7 +31,7 @@ export function users(state = [], action) {
       }
     });
 
-    return activeUsersInState
+    return activeUsersInState;
   }
 
   return state;

@@ -30,7 +30,6 @@ export function userAdded(payload) {
 export function removeUser(payload) {
   return async function(dispatch) {
     try {
-      console.log('removeUser payload', payload);
       dispatch({ type: REMOVE_USER, payload: payload });
       const response = await fetch('http://localhost:8080/api/users', {
         method: 'put',

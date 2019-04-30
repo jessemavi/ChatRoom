@@ -73,19 +73,7 @@ app.post('/api/users', (req, res) => {
   res.send(req.body);
 });
 
-app.delete('/api/users/:id', (req, res) => {
-  users.forEach((user, index) => {
-    if(user.socketId === req.params.id) {
-      users.splice(index, 1);
-      console.log(users);
-    }
-  });
-
-  res.send(req.params.id);
-});
-
 app.put('/api/users', (req, res) => {
-  console.log('put request', req.body);
   const userIndex = users.findIndex(user => {
     return user.socketId === req.body.socketId;
   });
@@ -95,14 +83,6 @@ app.put('/api/users', (req, res) => {
     users[userIndex].status = 'inactive';
     console.log(users);
   }
-
-  // const userIndex = users.findIndex(user => {
-  //   return user.username === req.body.username;
-  // })
-
-  // if(userIndex !== -1) {
-  //   users[userIndex].status = 'inactive';
-  // }
 
   res.send(req.body);
 });

@@ -24,10 +24,15 @@ class MessageList extends Component {
   scrollToBottom() {
     if(this.props.messages.length === 0) return;
 
-    // using requestAnimationFrame instead of a timeout would be better
+    // using setTimeout to allow message(s) with data and image to load
     setTimeout(() => {
       this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
     }, 300)
+
+    // using requestAnimationFrame in some way instead of a timeout would be better
+    // requestAnimationFrame(() => {
+    //   this.messageList.current.scrollTop = this.messageList.current.scrollHeight;
+    // });
   }
 
   checkNewestMessageForMention() {
@@ -92,6 +97,4 @@ const mapStateToProps = state => {
   return { messages: state.messages };
 };
 
-MessageList = connect(mapStateToProps, { getMessages })(MessageList);
-
-export default MessageList;
+export default connect(mapStateToProps, { getMessages })(MessageList);

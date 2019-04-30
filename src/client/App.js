@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import './app.css';
-// import ReactImage from './react.png';
-
 import { connect } from 'react-redux';
 import { Grid, Button } from 'semantic-ui-react';
-
-// import { Provider } from 'react-redux';
-// import { configureStore } from './redux/connect';
-
 import socketIO from 'socket.io-client';
 
 import Login from './components/Login';
@@ -18,9 +11,7 @@ import { userAdded, removeUser, logoutUser } from './redux-new/actions/users';
 
 export const socket = socketIO('http://localhost:8080');
 
-// const store = configureStore();
-
-class ConnectedApp extends Component {
+class App extends Component {
   constructor() {
     super();
     this.state = { 
@@ -35,15 +26,12 @@ class ConnectedApp extends Component {
     });
 
     socket.on('disconnect', id => {
-      console.log(id, localStorage.getItem('socketId'));
       console.log('logged out user socket id: ', id);
       // if(id === 'forced close' || 'io client disconnect') {
       //   id = localStorage.getItem('socketId');
       // }
 
-      this.props.removeUser({ 
-        socketId: id
-      });
+      this.props.removeUser({ socketId: id });
     });
 
     socket.on('message', message => {
@@ -60,11 +48,10 @@ class ConnectedApp extends Component {
   }
 
   loginUser = (username) => {
-    this.setState({ 
-      loggedIn: true
-    });
+    this.setState({ loggedIn: true });
   }
 
+  // not working as it should
   logoutUser = () => {
     socket.disconnect();
     this.setState({ loggedIn: false });
@@ -77,7 +64,7 @@ class ConnectedApp extends Component {
         ?
           <Login loginUser={this.loginUser} />
         :
-        <ChatRoom logoutUser={this.logoutUser} />  
+          <ChatRoom logoutUser={this.logoutUser} />  
     );
   }
 }
@@ -91,6 +78,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-const App = connect(null, mapDispatchToProps)(ConnectedApp);
-
-export default App;
+export default connect(null, mapDispatchToProps)(App);

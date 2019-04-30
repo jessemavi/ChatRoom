@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Comment, Header } from 'semantic-ui-react';
-import { getMessages } from '../redux-new/actions/messages';
+import { getMessages } from '../redux/actions/messages';
 import Message from './Message';
 
 class MessageList extends Component {
@@ -40,7 +40,6 @@ class MessageList extends Component {
 
     const newestMessage = this.props.messages[this.props.messages.length - 1];
     if(newestMessage.content.includes(`@${localStorage.getItem('username')}`)) {
-      console.log('user mentioned');
       this.audio.play();
     }
   }
@@ -93,7 +92,7 @@ class MessageList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return { messages: state.messages };
 };
 

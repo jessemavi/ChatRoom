@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Button } from 'semantic-ui-react';
 import socketIO from 'socket.io-client';
-
 import Login from './components/Login';
 import ChatRoom from './components/ChatRoom';
-
-import { messageAdded } from './redux-new/actions/messages';
-import { userAdded, removeUser, logoutUser } from './redux-new/actions/users';
+import { messageAdded } from './redux/actions/messages';
+import { userAdded, removeUser, logoutUser } from './redux/actions/users';
 
 export const socket = socketIO('http://localhost:8080');
 
@@ -27,10 +25,6 @@ class App extends Component {
 
     socket.on('disconnect', id => {
       console.log('logged out user socket id: ', id);
-      // if(id === 'forced close' || 'io client disconnect') {
-      //   id = localStorage.getItem('socketId');
-      // }
-
       this.props.removeUser({ socketId: id });
     });
 

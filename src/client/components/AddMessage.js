@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, TextArea } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { addMessage } from '../redux-new/actions/messages';
+import { addMessage } from '../redux/actions/messages';
 
 class AddMessage extends Component {
   constructor() {
@@ -18,6 +18,7 @@ class AddMessage extends Component {
   onFormSubmit = (event) => {
     event.preventDefault();
     if(this.state.formValue === '') return;
+    
     this.props.addMessage({
       content: this.state.formValue,
       user: localStorage.getItem('username'),

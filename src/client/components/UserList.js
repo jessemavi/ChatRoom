@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { List, Image, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { getActiveUsers } from '../redux-new/actions/users';
+import { getActiveUsers } from '../redux/actions/users';
 
 class UserList extends Component {
   constructor() {
@@ -31,7 +31,7 @@ class UserList extends Component {
   }
 }
 
-const mapStateToProps = state => {
+function mapStateToProps(state) {
   return { users: state.users };
 };
 

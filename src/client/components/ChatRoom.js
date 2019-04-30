@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Button } from 'semantic-ui-react';
-
 import UserList from './UserList';
 import MessageList from './MessageList';
 import AddMessage from './AddMessage';

@@ -1,7 +1,7 @@
 {
-  "name": "TruckMap-ChallengeWeb",
+  "name": "ChatRoom",
   "version": "1.0.0",
-  "description": "TruckMap Web Engineering Challenge",
+  "description": "",
   "main": "src/server/index.js",
   "scripts": {
     "build": "webpack --mode production",
